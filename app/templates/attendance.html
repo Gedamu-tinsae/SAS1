@@ -1,0 +1,51 @@
+<!-- templates/attendance.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Attendance</title>
+    <style>
+        /* Add your CSS styles here */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Attendance</h1>
+
+        <!-- Display attendance by course -->
+        <div class="attendance-table">
+            <h2>By Course</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Course</th>
+                        <th>Total Classes</th>
+                        <th>Attended Classes</th>
+                        <th>Attendance Percentage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for course, data in course_attendance.items() %}
+                        <tr>
+                            <td>{{ course }}</td>
+                            <td>{{ data.total_classes }}</td>
+                            <td>{{ data.attended_classes }}</td>
+                            <td>{{ data.attendance_percentage }}%</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Display attendance by date -->
+        <div class="attendance-list">
+            <h2>By Date</h2>
+            <ul>
+                {% for record in attendance_records %}
+                    <li>{{ record.date }} - {{ record.class_obj.name }} - {{ record.attendance_percentage }}%</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

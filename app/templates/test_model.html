@@ -1,0 +1,58 @@
+{% extends 'layout.html' %}
+
+{% block title %}Test Model{% endblock %}
+
+{% block content %}
+    <h2>Test Trained Model</h2>
+    <div class="container">
+        <p>Test your trained model using the camera:</p>
+        <button onclick="openCamera()">Open Camera</button>
+        <div id="cameraFeed"></div>
+        <p id="result"></p>
+    </div>
+
+    <script>
+        function openCamera() {
+            const video = document.createElement('video');
+            const cameraFeed = document.getElementById('cameraFeed');
+            const result = document.getElementById('result');
+
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    video.srcObject = stream;
+                    cameraFeed.appendChild(video);
+                    video.play();
+
+                    // Implement logic to capture frames and perform recognition
+                    setInterval(() => {
+                        const canvas = document.createElement('canvas');
+                        const context = canvas.getContext('2d');
+                        canvas.width = video.videoWidth;
+                        canvas.height = video.videoHeight;
+                        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                        const imageData = canvas.toDataURL('image/jpeg');
+                        fetch('/recognize_face', {
+                            method: 'POST',
+                            body: JSON.stringify({ image: imageData, student_id: "{{ current_user.id }}" }),
+                            headers: { 'Content-Type': 'application/json' }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.student_id) {
+                                result.textContent = `Student ID ${data.student_id} recognized!`;
+                            } else {
+                                result.textContent = `No student recognized.`;
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error recognizing face:', error);
+                        });
+                    }, 5000);  // Example: capture frames every 5 seconds
+                })
+                .catch(error => {
+                    console.error('Error accessing camera:', error);
+                });
+        }
+    </script>
+{% endblock %}

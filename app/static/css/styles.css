@@ -1,0 +1,118 @@
+/* Normalize or Reset Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Body and Global Styles */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f9f9f9;
+}
+
+/* Center align form */
+.form-container {
+    width: 300px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f2f2f2;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Style form inputs */
+.form-container input[type=text],
+.form-container input[type=email],
+.form-container input[type=password],
+.form-container select,
+.form-container textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px; /* Adjust font size for readability */
+}
+
+/* Style form submit button */
+.form-container button[type=submit] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px; /* Match input field font size */
+}
+
+.form-container button[type=submit]:hover {
+    background-color: #45a049;
+}
+
+/* Style form labels */
+.form-container label {
+    margin-bottom: 6px;
+    display: block;
+    font-weight: bold;
+}
+
+/* Style form header */
+.form-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px; /* Larger heading size */
+}
+
+/* Additional styles for form fields */
+.form-container .remember-me {
+    margin-top: 12px;
+}
+
+.form-container .form-group {
+    margin-bottom: 20px;
+}
+
+/* Center align content */
+.container {
+    width: 80%;
+    margin: 20px auto;
+    max-width: 1200px; /* Limit maximum width for larger screens */
+}
+
+/* Style headings */
+h1, h2, h3 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Style navigation links */
+.nav-links {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.nav-links a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #333;
+    padding: 5px 10px;
+    border-radius: 4px;
+    background-color: #f0f0f0;
+}
+
+.nav-links a:hover {
+    background-color: #ddd;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .form-container {
+        width: 100%;
+    }
+}

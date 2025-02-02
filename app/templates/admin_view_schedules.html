@@ -1,0 +1,77 @@
+{% extends 'layout.html' %}
+
+{% block title %}Admin View Schedules{% endblock %}
+
+{% block content %}
+    <h1>View All Schedules</h1>
+
+    <form method="GET" action="{{ url_for('main.admin_view_schedules') }}">
+        <div class="form-group">
+            <label for="department">Department:</label>
+            <select id="department" name="department">
+                <option value="">All Departments</option>
+                {% for dept in departments %}
+                    <option value="{{ dept }}" {% if filters['department'] == dept %}selected{% endif %}>{{ dept }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="semester">Semester:</label>
+            <select id="semester" name="semester">
+                <option value="">All Semesters</option>
+                {% for sem in semesters %}
+                    <option value="{{ sem }}" {% if filters['semester'] == sem %}selected{% endif %}>{{ sem }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="batch">Batch:</label>
+            <select id="batch" name="batch">
+                <option value="">All Batches</option>
+                {% for batch in batches %}
+                    <option value="{{ batch }}" {% if filters['batch'] == batch %}selected{% endif %}>{{ batch }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="teacher_id">Teacher ID:</label>
+            <select id="teacher_id" name="teacher_id">
+                <option value="">All Teachers</option>
+                {% for teacher_id in teachers %}
+                    <option value="{{ teacher_id }}" {% if filters['teacher_id'] == teacher_id %}selected{% endif %}>{{ teacher_id }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit">Filter</button>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Time / Day</th>
+                {% for day in days %}
+                    <th>{{ day }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for period in periods %}
+                <tr>
+                    <td>{{ period }}</td>
+                    {% for day in days %}
+                        <td>
+                            {% if schedule[day][period] %}
+                                {% for entry in schedule[day][period] %}
+                                    Classroom: {{ entry.classroom }}<br>
+                                    Teacher ID: {{ entry.teacher_id }}<br>
+                                {% endfor %}
+                            {% else %}
+                                No class scheduled
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

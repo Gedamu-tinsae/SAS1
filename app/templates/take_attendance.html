@@ -1,0 +1,60 @@
+<!-- take_attendance.html -->
+{% extends 'layout.html' %}
+
+{% block title %}Take Attendance{% endblock %}
+
+{% block content %}
+    <h2>Take Attendance</h2>
+    <div class="container">
+        <p>Allow access to the camera:</p>
+        <video id="videoFeed" width="640" height="480" autoplay></video>
+        <button id="captureButton">Capture Image</button>
+        <canvas id="canvas" width="640" height="480"></canvas>
+        <div id="results"></div>
+    </div>
+
+    <script>
+        const video = document.getElementById('videoFeed');
+        const canvas = document.getElementById('canvas');
+        const captureButton = document.getElementById('captureButton');
+        const resultsDiv = document.getElementById('results');
+
+        // Check if getUserMedia is supported
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function(stream) {
+                    video.srcObject = stream;
+                })
+                .catch(function(error) {
+                    console.error('Error accessing the camera:', error);
+                });
+        }
+
+        // Capture image from video feed
+        captureButton.addEventListener('click', function() {
+            canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+            const imageData = canvas.toDataURL('image/jpeg');
+
+            // Send captured image to Flask backend for recognition
+            fetch('{{ url_for("main.process_attendance") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ image_data: imageData })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    resultsDiv.innerHTML = `<p>Attendance successfully taken for ${data.student_name}.</p>`;
+                } else {
+                    resultsDiv.innerHTML = `<p>Failed to recognize student. Please try again.</p>`;
+                }
+            })
+            .catch(error => {
+                console.error('Error capturing attendance:', error);
+                resultsDiv.innerHTML = `<p>An error occurred. Please try again later.</p>`;
+            });
+        });
+    </script>
+{% endblock %}

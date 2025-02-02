@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Attendance Records
+{% endblock %}
+
+{% block content %}
+    <h1>Attendance Records</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Student ID</th>
+                <th>Attendance Percentage</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}
+                <tr>
+                    <td>{{ student.id }}</td>
+                    <td>{{ student.attendance_percentage }}%</td>
+                    <td><a href="{{ url_for('main.student_attendance', student_id=student.id) }}">View Details</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

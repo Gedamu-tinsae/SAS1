@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script>
+        function toggleFields() {
+            var userType = document.getElementById('user_type').value;
+            var teacherFields = document.getElementById('teacher_fields');
+            var studentFields = document.getElementById('student_fields');
+            var adminFields = document.getElementById('admin_fields');
+    
+            if (userType === 'teacher') {
+                teacherFields.style.display = 'block';
+                studentFields.style.display = 'none';
+                adminFields.style.display = 'none';
+            } else if (userType === 'student') {
+                teacherFields.style.display = 'none';
+                studentFields.style.display = 'block';
+                adminFields.style.display = 'none';
+            } else if (userType === 'admin') {
+                teacherFields.style.display = 'none';
+                studentFields.style.display = 'none';
+                adminFields.style.display = 'block';
+            } else {
+                teacherFields.style.display = 'none';
+                studentFields.style.display = 'none';
+                adminFields.style.display = 'none';
+            }
+        }
+    
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('form').addEventListener('submit', function(event) {
+                if (!document.querySelector('form').checkValidity()) {
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
+    
+    
+</head>
+<body>
+    <div class="form-container">
+        <h2>Register</h2>
+        <form method="POST" action="{{ url_for('main.register') }}" novalidate>
+            {{ form.hidden_tag() }}
+
+            <div class="form-group">
+                <label for="user_type">Select User Type:</label>
+                {{ form.user_type(onchange="toggleFields()", id="user_type", class='form-control') }}
+            </div>
+
+            <div class="form-group">
+                {{ form.email.label }}
+                {{ form.email(size=32, class='form-control') }}
+            </div>
+
+            <div class="form-group">
+                {{ form.password.label }}
+                {{ form.password(size=32, class='form-control') }}
+            </div>
+
+            <div class="form-group">
+                {{ form.confirm_password.label }}
+                {{ form.confirm_password(size=32, class='form-control') }}
+            </div>
+
+            <!-- Teacher Fields -->
+            <div id="teacher_fields" style="display: none;">
+                <div class="form-group">
+                    {{ form.teacher_id.label }}
+                    {{ form.teacher_id(size=32, class='form-control') }}
+                </div>
+                
+                <div class="form-group">
+                    {{ form.teacher_name.label }}
+                    {{ form.teacher_name(size=32, class='form-control') }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.teacher_department.label }}
+                    {{ form.teacher_department() }}
+                </div>
+            </div>
+
+            <!-- Student Fields -->
+            <div id="student_fields" style="display: none;">
+                <div class="form-group">
+                    {{ form.student_id.label }}
+                    {{ form.student_id(size=32, class='form-control') }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.student_name.label }}
+                    {{ form.student_name(size=32, class='form-control') }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.student_department.label }}
+                    {{ form.student_department() }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.student_semester.label }}
+                    {{ form.student_semester() }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.student_batch.label }}
+                    {{ form.student_batch() }}
+                </div>
+            </div>
+
+            <!-- Admin Fields -->
+            <div id="admin_fields" style="display: none;">
+                <p>Admin does not require additional information.</p>
+            </div>
+
+            <div class="form-group">
+                {{ form.submit() }}
+            </div>
+
+            <div class="form-group">
+                <p>Already have an account? <a href="{{ url_for('main.login') }}">Login</a></p>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

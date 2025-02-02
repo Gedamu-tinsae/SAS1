@@ -1,0 +1,21 @@
+{% extends 'layout.html' %}
+
+{% block title %}Student Options{% endblock %}
+
+{% block content %}
+    <h2>Welcome, {{ current_user.username }}!</h2>
+    <p>Choose an option:</p>
+    <ul>
+        <li><a href="{{ url_for('main.train_model_route') }}">Train Model</a></li>
+        {% if attendance_records %}
+            <li><a href="{{ url_for('main.view_attendance') }}">View Attendance</a></li>
+        {% else %}
+            {% if can_take_attendance %}
+                <li><a href="{{ url_for('main.take_attendance') }}">Take Attendance</a></li>
+            {% else %}
+                <li><span>Attendance is not available for any of your scheduled classes.</span></li>
+            {% endif %}
+        {% endif %}
+        <li><a href="{{ url_for('main.view_schedule') }}">View Schedule</a></li>
+    </ul>
+{% endblock %}

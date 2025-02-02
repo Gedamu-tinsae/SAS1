@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Student Attendance Details
+{% endblock %}
+
+{% block content %}
+    <h1>Attendance Details for Student {{ student.id }}</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Class ID</th>
+                <th>Timestamp</th>
+                <th>Present</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in records %}
+                <tr>
+                    <td>{{ record.class_id }}</td>
+                    <td>{{ record.timestamp }}</td>
+                    <td>{{ record.present | yesno:"Yes,No" }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

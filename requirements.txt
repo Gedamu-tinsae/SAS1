@@ -1,0 +1,10 @@
+pip install flask flask_sqlalchemy flask_login flask_wtf opencv-python
+
+pip install email-validator
+
+pip install opencv-contrib-python
+
+pip install tensorflow
+
+-------------------------------------
+pip install --upgrade tensorflow keras

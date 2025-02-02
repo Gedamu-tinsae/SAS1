@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script> <!-- Link to your scripts.js -->
+</head>
+<body>
+    <div class="form-container">
+        <h2>Login</h2>
+        <form id="loginForm" method="POST" action="{{ url_for('main.login') }}">
+            {{ form.hidden_tag() }}
+
+            <div class="form-group">
+                {{ form.email.label }}
+                {{ form.email(size=32, class='form-control') }}
+            </div>
+            
+            <div class="form-group">
+                {{ form.password.label }}
+                {{ form.password(size=32, class='form-control') }}
+            </div>
+            
+            <div class="form-group">
+                {{ form.remember.label }}
+                {{ form.remember(class='form-check-input') }}
+            </div>
+            
+            <div class="form-group">
+                <button type="submit" id="loginBtn" class="btn btn-primary">Login</button>
+            </div>
+        </form>
+
+        <div class="form-group">
+            <p>Don't have an account? <a href="{{ url_for('main.register') }}">Sign Up</a></p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!-- templates/train_model.html -->
+{% extends 'layout.html' %}
+
+{% block title %}Train Model{% endblock %}
+
+{% block content %}
+    <h1>Train Model</h1>
+    <form method="POST" action="{{ url_for('main.train_model_route') }}" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        
+        <div class="form-group">
+            <label for="photos">Upload Photos:</label>
+            {{ form.photos(class="form-control-file", multiple=True) }} <!-- Add multiple attribute for multiple files -->
+        </div>
+        
+        <div class="form-group">
+            <label for="student_id">Student ID:</label>
+            {{ form.student_id(class="form-control") }}
+        </div>
+        
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Upload Photos and Train Model</button>
+        </div>
+    </form>
+
+    {% if training_complete %}
+        <div class="form-group">
+            <a href="{{ url_for('main.test_model') }}" class="btn btn-success">Test Model</a>
+        </div>
+    {% endif %}
+{% endblock %}

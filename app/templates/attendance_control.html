@@ -1,0 +1,98 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Attendance Control
+{% endblock %}
+
+{% block content %}
+    <h1>Attendance Control</h1>
+    <div id="attendance-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Time / Day</th>
+                    {% for day in days %}
+                        <th>{{ day }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for period in periods %}
+                    <tr>
+                        <td>{{ period }}</td>
+                        {% for day in days %}
+                            <td id="attendance-{{ day }}-{{ period }}" class="attendance-cell" onclick="toggleAttendance('{{ day }}', '{{ period }}')">
+                                {% if attendance[day][period] %}
+                                    <span class="status-on">ON</span>
+                                {% else %}
+                                    <span class="status-off">OFF</span>
+                                {% endif %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Form to handle attendance status -->
+        <form id="attendance-form" method="POST" action="{{ url_for('main.toggle_attendance') }}" style="display: none;">
+            <input type="hidden" id="attend_day" name="day">
+            <input type="hidden" id="attend_period" name="period">
+            <input type="hidden" id="attend_status" name="status">
+            <button type="submit">Update Attendance</button>
+            <button type="button" onclick="hideAttendanceForm()">Cancel</button>
+        </form>
+    </div>
+
+    <script>
+        // Convert the data to JSON
+        const attendance = JSON.parse('{{ attendance | tojson | safe }}');
+        const days = JSON.parse('{{ days | tojson | safe }}');
+        const periods = JSON.parse('{{ periods | tojson | safe }}');
+    
+        function toggleAttendance(day, period) {
+            const cell = document.getElementById(`attendance-${day}-${period}`);
+            const isOn = cell.querySelector('.status-on');
+            const newStatus = isOn ? 'OFF' : 'ON';
+            
+            document.getElementById('attend_day').value = day;
+            document.getElementById('attend_period').value = period;
+            document.getElementById('attend_status').value = newStatus;
+            
+            // Toggle status display
+            cell.innerHTML = newStatus === 'ON' ? '<span class="status-on">ON</span>' : '<span class="status-off">OFF</span>';
+            
+            // Show form
+            document.getElementById('attendance-form').style.display = 'block';
+        }
+    
+        function hideAttendanceForm() {
+            document.getElementById('attendance-form').style.display = 'none';
+        }
+    </script>    
+    
+    <style>
+        .attendance-cell {
+            cursor: pointer;
+            text-align: center;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .attendance-cell:hover {
+            background-color: #f0f0f0;
+        }
+
+        .status-on {
+            color: green;
+        }
+
+        .status-off {
+            color: red;
+        }
+
+        #attendance-form button {
+            margin-right: 10px;
+        }
+    </style>
+{% endblock %}

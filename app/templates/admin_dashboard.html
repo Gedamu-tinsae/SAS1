@@ -1,0 +1,14 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Admin Dashboard
+{% endblock %}
+
+{% block content %}
+    <h1>Admin Dashboard</h1>
+    <div id="dashboard-container">
+        <a href="{{ url_for('main.create_schedule_student') }}" class="btn btn-primary">Create Schedule for Students</a>
+        <a href="{{ url_for('main.create_schedule_teacher') }}" class="btn btn-primary">Create Schedule for Teachers</a>
+        <a href="{{ url_for('main.admin_view_schedules') }}" class="btn btn-primary">View Schedules</a>
+    </div>
+{% endblock %}

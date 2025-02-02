@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Teacher Options
+{% endblock %}
+
+{% block content %}
+    <h1>Teacher Options</h1>
+    <div id="options-container">
+        <ul>
+            <li><a href="{{ url_for('main.view_schedule_teacher') }}">View Schedule</a></li>
+            <!--  <li><a href="{{ url_for('main.attendance_control') }}">Manage Attendance</a></li>
+         -->
+        </ul>
+    </div>
+{% endblock %}

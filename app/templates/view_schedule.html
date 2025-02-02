@@ -1,0 +1,41 @@
+{% extends 'layout.html' %}
+
+{% block title %}View Schedule{% endblock %}
+
+{% block content %}
+    <h1>Your Weekly Schedule</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Time / Day</th>
+                {% for day in days %}
+                    <th>{{ day }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for period in periods %}
+                <tr>
+                    <td>{{ period }}</td>
+                    {% for day in days %}
+                        <td>
+                            {% if schedule[day][period] %}
+                                {{ schedule[day][period] }}
+                                <button onclick="takeAttendance('{{ day }}', '{{ period }}')">Take Attendance</button>
+                            {% else %}
+                                No class scheduled
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+        function takeAttendance(day, period) {
+            // Redirect to take attendance page with the schedule period
+            window.location.href = "{{ url_for('main.take_attendance') }}" + `?day=${day}&period=${period}`;
+        }
+    </script>
+{% endblock %}

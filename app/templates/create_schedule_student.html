@@ -1,0 +1,72 @@
+{% extends 'layout.html' %}
+
+{% block title %}Create Schedule for Students{% endblock %}
+
+{% block content %}
+    <h1>Create Schedule for Students</h1>
+    <form method="POST">
+        <div class="form-group">
+            <label for="department">Department:</label>
+            <select id="department" name="department" class="form-control" required>
+                <option value="">Select Department</option>
+                {% for department in departments %}
+                    <option value="{{ department[0] }}">{{ department[0] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="semester">Semester:</label>
+            <select id="semester" name="semester" class="form-control" required>
+                {% for semester in semesters %}
+                    <option value="{{ semester }}">{{ semester }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="batch">Batch:</label>
+            <select id="batch" name="batch" class="form-control" required>
+                {% for batch in batches %}
+                    <option value="{{ batch }}">{{ batch }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="day_of_week">Day of Week:</label>
+            <select id="day_of_week" name="day_of_week" class="form-control" required>
+                {% for day in days %}
+                    <option value="{{ day }}">{{ day }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="time_start">Start Time:</label>
+            <select id="time_start" name="time_start" class="form-control" required>
+                {% for period in periods %}
+                    <option value="{{ period.split('-')[0] }}">{{ period.split('-')[0] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="time_end">End Time:</label>
+            <select id="time_end" name="time_end" class="form-control" required>
+                {% for period in periods %}
+                    <option value="{{ period.split('-')[1] }}">{{ period.split('-')[1] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="classroom">Classroom:</label>
+            <input type="text" id="classroom" name="classroom" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="teacher_id">Teacher:</label>
+            <select id="teacher_id" name="teacher_id" class="form-control" required>
+                <option value="">Select Teacher</option>
+                {% for teacher in teachers %}
+                    <option value="{{ teacher.id }}">{{ teacher.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Schedule</button>
+    </form>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'layout.html' %}
+
+{% block title %}View Schedule{% endblock %}
+
+{% block content %}
+    <h1>Your Weekly Schedule</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Time / Day</th>
+                {% for day in days %}
+                    <th>{{ day }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for period in periods %}
+                <tr>
+                    <td>{{ period }}</td>
+                    {% for day in days %}
+                        <td>
+                            {% if schedule[day][period] %}
+                                {{ schedule[day][period] }}
+                                <form method="POST" action="{{ url_for('main.toggle_attendance') }}" style="display:inline;">
+                                    <input type="hidden" name="day" value="{{ day }}">
+                                    <input type="hidden" name="period" value="{{ period }}">
+                                    {% if (day, period) in attendance_status and attendance_status[(day, period)] %}
+                                        <input type="hidden" name="status" value="OFF">
+                                        <button type="submit">Turn OFF Attendance</button>
+                                    {% else %}
+                                        <input type="hidden" name="status" value="ON">
+                                        <button type="submit">Turn ON Attendance</button>
+                                    {% endif %}
+                                </form>
+                            {% else %}
+                                No class scheduled
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
